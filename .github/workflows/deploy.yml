@@ -4,6 +4,13 @@ name: Deploy SecondLook
 on:
   push:
     branches: [main]
+  # While Pages is set to "Deploy from a branch", GitHub also publishes the raw
+  # repository files after every push. Deploy again once that finishes, so the
+  # built app is always the version left online. This trigger never fires when
+  # the Pages source is "GitHub Actions".
+  workflow_run:
+    workflows: [pages-build-deployment]
+    types: [completed]
   workflow_dispatch:
 
 permissions:
